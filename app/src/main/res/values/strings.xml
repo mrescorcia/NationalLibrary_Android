@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">National Library</string>
+    <string name="txtBookName">Book Name...</string>
+    <string name="btnSearchBook">Search</string>
+
+    <string name="titleTextView">Title</string>
+    <string name="subtitleTextView">Subtitle</string>
+    <string name="isbn13TextView">isbn13</string>
+    <string name="priceTextView">Price</string>
+    <string name="urlTextView">url</string>
+</resources>
