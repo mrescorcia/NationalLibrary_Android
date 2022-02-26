@@ -1,6 +1,8 @@
 package com.example.nationallibrary;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,16 +27,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<ListBooks> listBooks;
+    List<ListBooks> _listBooks;
     Button btnSearchBook;
     EditText txtTitle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        init();
 
         txtTitle = findViewById(R.id.txtBookName);
         btnSearchBook = findViewById(R.id.btnSearchBooks);
@@ -41,20 +44,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String title = txtTitle.getText().toString();
+
                 SearchBooks(title);
+
+
             }
         });
 
     }
 
-    public void init(){
-        listBooks = new ArrayList<>();
-        //listBooks.add(new ListBooks())
-    }
+    private List<ListBooks> SearchBooks(String titleIn ){
 
-    private List<ListBooks> SearchBooks(String titleIn){
-
-        List<ListBooks> listBooksOut = new ArrayList<>();
+        _listBooks = new ArrayList<>();
 
         String url = "https://api.itbook.store/1.0/search/" + titleIn;
 
@@ -64,11 +65,25 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    /*
-                    txtUser.setText(jsonObject.getString("userId"));
-                    txtTitle.setText(jsonObject.getString("title"));
-                    txtBody.setText(jsonObject.getString("body"));
-                    */
+
+                    JSONArray jsonObjectBooks = jsonObject.getJSONArray("books");
+
+                    for (int i = 0; i<jsonObjectBooks.length(); i++){
+                        JSONObject book = jsonObjectBooks.getJSONObject(i);
+                        _listBooks.add(new ListBooks(
+                                book.getString("title"),
+                                book.getString("subtitle"),
+                                book.getString("isbn13"),
+                                book.getString("price"),
+                                book.getString("url")
+                        ));
+                    }
+
+                    ListAdapter listAdapter = new ListAdapter(_listBooks, MainActivity.this);
+                    RecyclerView recyclerView = findViewById(R.id.listRecyclerView);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    recyclerView.setAdapter(listAdapter);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -84,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(postRequest);
 
-        return listBooksOut;
+        return _listBooks;
     }
 
 }
