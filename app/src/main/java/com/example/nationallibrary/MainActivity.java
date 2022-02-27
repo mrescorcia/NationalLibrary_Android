@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     Button btnSearchBook;
     EditText txtTitle;
 
+    RecyclerView recyclerView;
+    TextView isbn13TextView;
+
 
 
     @Override
@@ -42,14 +46,26 @@ public class MainActivity extends AppCompatActivity {
 
         txtTitle = findViewById(R.id.txtBookName);
         btnSearchBook = findViewById(R.id.btnSearchBooks);
+        recyclerView = findViewById(R.id.listRecyclerView);
+
         btnSearchBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String titleToSearch = txtTitle.getText().toString();
                 SearchBooks(titleToSearch);
+                //Intent intent = new Intent(MainActivity.this, BookDetailsActivity.class);
+                //startActivity(intent);
 
 
+            }
+        });
+
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isbn13TextView = view.findViewById(R.id.isbn13TextView);
+                String text = (String) isbn13TextView.getText();
             }
         });
 

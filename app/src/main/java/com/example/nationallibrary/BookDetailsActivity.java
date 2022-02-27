@@ -29,14 +29,15 @@ public class BookDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_details);
-        SearchBook("");
+        //searchBook("");
+        getIncomingIntent();
     }
 
-    private List<Book> SearchBook(String isbn13){
+    private List<Book> searchBook(String isbn13){
 
         _listBooks = new ArrayList<>();
 
-        String url = "https://api.itbook.store/1.0/books/" + "9781484211830";
+        String url = "https://api.itbook.store/1.0/books/" + isbn13;
 
         StringRequest postRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -63,7 +64,7 @@ public class BookDetailsActivity extends AppCompatActivity {
                             jsonBook.getString("url")));
 
 
-                    ListAdapter listAdapter = new ListAdapter(_listBooks, BookDetailsActivity.this);
+                    ListDetailsAdapter listAdapter = new ListDetailsAdapter(_listBooks, BookDetailsActivity.this);
                     RecyclerView detailRecyclerView = findViewById(R.id.listDetailsRecyclerView);
                     detailRecyclerView.setHasFixedSize(true);
                     detailRecyclerView.setLayoutManager(new LinearLayoutManager(BookDetailsActivity.this));
@@ -84,6 +85,13 @@ public class BookDetailsActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(postRequest);
 
         return _listBooks;
+    }
+
+    private void getIncomingIntent(){
+
+        if(getIntent().hasExtra("isbn13")){
+            searchBook(getIntent().getStringExtra("isbn13"));
+        }
     }
 
 }

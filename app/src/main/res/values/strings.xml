@@ -5,7 +5,17 @@
 
     <string name="titleTextView">Title</string>
     <string name="subtitleTextView">Subtitle</string>
+    <string name="authorsTextView">authors</string>
+    <string name="publisherTextView">publisher</string>
+    <string name="isbn10TextView">isbn10</string>
+
     <string name="isbn13TextView">isbn13</string>
-    <string name="priceTextView">Price</string>
-    <string name="urlTextView">Buy</string>
+    <string name="pagesTextView">pages</string>
+    <string name="yearTextView">year</string>
+    <string name="ratingTextView">rating</string>
+    <string name="descTextView">desc</string>
+
+    <string name="priceTextView">price</string>
+    <string name="imageTextView">image</string>
+    <string name="urlTextView">url</string>
 </resources>

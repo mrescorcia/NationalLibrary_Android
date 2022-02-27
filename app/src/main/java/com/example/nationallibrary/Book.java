@@ -52,7 +52,8 @@ public class Book {
     }
 
     public Book(String title, String subtitle, String authors, String publisher, String isbn10,
-                String isbn13, String pages, String year, String rating, String desc, String price, String image, String url) {
+                String isbn13, String pages, String year, String rating, String desc, String price,
+                String image, String url) {
         this.title = title;
         this.subtitle = subtitle;
         this.authors = authors;
@@ -156,8 +157,13 @@ public class Book {
         this.price = price;
     }
 
-    public ImageView getImage() {
-        return null;
+    public ImageView getImage(String urlImage)
+    {
+        ImageView bookImageView = null;
+        //Glide.with
+
+
+        return bookImageView;
     }
 
     public void setImage(String urlImage) {

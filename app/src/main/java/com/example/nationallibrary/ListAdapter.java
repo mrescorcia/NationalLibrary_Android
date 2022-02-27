@@ -1,6 +1,7 @@
 package com.example.nationallibrary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,10 +57,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*isbn13TextView = v.findViewById(R.id.isbn13TextView);
-                    String text = (String) isbn13TextView.getText();
+                    isbn13TextView = v.findViewById(R.id.isbn13TextView);
+                    String isbn13 = (String) isbn13TextView.getText();
 
-                     */
+                    Intent intent = new Intent(context, BookDetailsActivity.class);
+                    intent.putExtra("isbn13", isbn13);
+                    context.startActivity(intent);
+
                 }
             });
 
