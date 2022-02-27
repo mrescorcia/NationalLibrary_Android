@@ -46,7 +46,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:text="@string/titleTextView"
-                    android:textColor="@android:color/black"
                     android:textSize="24sp"
                     android:textStyle="bold"/>
                 <TextView
@@ -55,7 +54,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:text="@string/subtitleTextView"
-                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="bold"/>
                 <TextView
@@ -64,42 +62,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:text="@string/isbn13TextView"
-                    android:textColor="@android:color/black"
                     android:textSize="18sp"
                     android:textStyle="normal"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayoutTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="2dp"
-                android:layout_toEndOf="@+id/linearLayout"
-                android:orientation="vertical"
-                android:layout_marginLeft="4dp"
-                android:layout_toRightOf="@+id/linearLayout">
                 <TextView
                     android:id="@+id/priceTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:text="@string/priceTextView"
-                    android:textColor="@android:color/black"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
+                    android:textSize="18sp"/>
                 <TextView
                     android:id="@+id/urlTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:text="@string/urlTextView"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
-
         </RelativeLayout>
     </LinearLayout>
 

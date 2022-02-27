@@ -1,22 +1,24 @@
 package com.example.nationallibrary;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
-    private List<ListBooks> booksList;
+    private List<Book> booksList;
     private LayoutInflater mLayoutInflater;
     private Context context;
 
-    public ListAdapter(List<ListBooks> booksList, Context context){
+    public ListAdapter(List<Book> booksList, Context context){
         this.booksList = booksList;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.context = context;
@@ -36,7 +38,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         holder.bindData(booksList.get(position));
     }
 
-    public void setItems(List<ListBooks> items){ booksList = items; }
+    public void setItems(List<Book> items){ booksList = items; }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView bookImageView;
@@ -51,9 +53,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
             priceTextView = itemView.findViewById(R.id.priceTextView);
             urlTextView = itemView.findViewById(R.id.urlTextView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    /*isbn13TextView = v.findViewById(R.id.isbn13TextView);
+                    String text = (String) isbn13TextView.getText();
+
+                     */
+                }
+            });
+
         }
 
-        void bindData(final ListBooks book){
+        void bindData(final Book book){
+            //bookImageView.setImageURI(book.getImage());
             titleTextView.setText(book.getTitle());
             subtitleTextView.setText(book.getSubtitle());
             isbn13TextView.setText(book.getIsbn13());

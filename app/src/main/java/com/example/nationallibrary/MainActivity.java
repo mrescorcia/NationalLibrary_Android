@@ -4,13 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -27,9 +28,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<ListBooks> _listBooks;
+    List<Book> _listBooks;
     Button btnSearchBook;
     EditText txtTitle;
+
 
 
     @Override
@@ -43,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         btnSearchBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String title = txtTitle.getText().toString();
 
-                SearchBooks(title);
+                String titleToSearch = txtTitle.getText().toString();
+                SearchBooks(titleToSearch);
 
 
             }
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private List<ListBooks> SearchBooks(String titleIn ){
+    private List<Book> SearchBooks(String titleIn ){
 
         _listBooks = new ArrayList<>();
 
@@ -70,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
                     for (int i = 0; i<jsonObjectBooks.length(); i++){
                         JSONObject book = jsonObjectBooks.getJSONObject(i);
-                        _listBooks.add(new ListBooks(
+                        _listBooks.add(new Book(
+                                book.getString("image"),
                                 book.getString("title"),
                                 book.getString("subtitle"),
                                 book.getString("isbn13"),
@@ -100,6 +103,17 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(postRequest);
 
         return _listBooks;
+    }
+
+    private void OpenLink(String url){
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("url"));
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.d("Error", "Error in the process");
+            Toast.makeText(this, "Error in the process", Toast.LENGTH_LONG);
+        }
+
     }
 
 }
