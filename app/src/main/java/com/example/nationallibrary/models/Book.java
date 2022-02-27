@@ -1,6 +1,10 @@
-package com.example.nationallibrary;
+package com.example.nationallibrary.models;
 
+import android.util.Log;
 import android.widget.ImageView;
+
+import com.example.nationallibrary.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -157,11 +161,20 @@ public class Book {
         this.price = price;
     }
 
-    public ImageView getImage(String urlImage)
+    public ImageView getImage(String urlImage, ImageView imageViewIn)
     {
-        ImageView bookImageView = null;
-        //Glide.with
+        ImageView bookImageView = imageViewIn;
 
+        try {
+            Picasso.get()
+                    .load(urlImage)
+                    .fit()
+                    .centerCrop()
+                    .error(R.mipmap.book)
+                    .into(bookImageView);
+        }catch (Exception e){
+            Log.d("ErrorImageUrl", "Error Image Url");
+        }
 
         return bookImageView;
     }

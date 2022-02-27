@@ -1,16 +1,18 @@
-package com.example.nationallibrary;
+package com.example.nationallibrary.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.nationallibrary.R;
+import com.example.nationallibrary.models.Book;
+import com.example.nationallibrary.util.BookDetailsActivity;
 
 import java.util.List;
 
@@ -70,12 +72,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
         }
 
         void bindData(final Book book){
-            //bookImageView.setImageURI(book.getImage());
+
+            bookImageView = book.getImage(book.image, bookImageView);
             titleTextView.setText(book.getTitle());
             subtitleTextView.setText(book.getSubtitle());
             isbn13TextView.setText(book.getIsbn13());
             priceTextView.setText(book.getPrice());
             urlTextView.setText(book.getUrl());
+
         }
 
     }

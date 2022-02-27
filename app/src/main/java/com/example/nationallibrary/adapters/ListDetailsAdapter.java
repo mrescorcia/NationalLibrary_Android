@@ -1,4 +1,4 @@
-package com.example.nationallibrary;
+package com.example.nationallibrary.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.nationallibrary.R;
+import com.example.nationallibrary.models.Book;
 
 import java.util.List;
 
@@ -75,7 +78,8 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
         }
 
         void bindData(final Book book){
-            //bookImageView.setImageURI(book.getImage());
+
+            bookImageView = book.getImage(book.image, bookImageView);
             titleTextView.setText(book.getTitle());
             subtitleTextView.setText(book.getSubtitle());
             authorsTextView.setText("authors: " + book.getAuthors());
@@ -88,9 +92,8 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
             ratingTextView.setText("rating: " + book.getRating());
             descTextView.setText(book.getDesc());
             priceTextView.setText("price: " + book.getPrice());
-
-            //imageTextView.setText(book.getImage());
             urlTextView.setText("url: " + book.getUrl());
+
         }
 
     }

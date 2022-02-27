@@ -1,4 +1,4 @@
-package com.example.nationallibrary;
+package com.example.nationallibrary.util;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +19,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.nationallibrary.R;
+import com.example.nationallibrary.adapters.ListAdapter;
+import com.example.nationallibrary.models.Book;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,14 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 //startActivity(intent);
 
 
-            }
-        });
-
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isbn13TextView = view.findViewById(R.id.isbn13TextView);
-                String text = (String) isbn13TextView.getText();
             }
         });
 
