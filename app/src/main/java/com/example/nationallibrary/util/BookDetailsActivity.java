@@ -51,19 +51,19 @@ public class BookDetailsActivity extends AppCompatActivity {
                     //JSONArray jsonPDF = jsonBook.getJSONArray("books");
 
                     _listBooks.add(new Book(
-                            jsonBook.getString("title"),
-                            jsonBook.getString("subtitle"),
-                            jsonBook.getString("authors"),
-                            jsonBook.getString("publisher"),
-                            jsonBook.getString("isbn10"),
-                            jsonBook.getString("isbn13"),
-                            jsonBook.getString("pages"),
-                            jsonBook.getString("year"),
-                            jsonBook.getString("rating"),
-                            jsonBook.getString("desc"),
-                            jsonBook.getString("price"),
-                            jsonBook.getString("image"),
-                            jsonBook.getString("url")));
+                            jsonBook.getString("title")==null?"":jsonBook.getString("title"),
+                            jsonBook.getString("subtitle")==null?"":jsonBook.getString("subtitle"),
+                            jsonBook.getString("authors")==null?"":jsonBook.getString("authors"),
+                            jsonBook.getString("publisher")==null?"":jsonBook.getString("publisher"),
+                            jsonBook.getString("isbn10")==null?"":jsonBook.getString("isbn10"),
+                            jsonBook.getString("isbn13")==null?"":jsonBook.getString("isbn13"),
+                            jsonBook.getString("pages")==null?"":jsonBook.getString("pages"),
+                            jsonBook.getString("year")==null?"":jsonBook.getString("year"),
+                            jsonBook.getString("rating")==null?"":jsonBook.getString("rating"),
+                            jsonBook.getString("desc")==null?"":jsonBook.getString("desc"),
+                            jsonBook.getString("price")==null?"":jsonBook.getString("price"),
+                            jsonBook.getString("image")==null?"":jsonBook.getString("image"),
+                            jsonBook.getString("url")==null?"":jsonBook.getString("url")));
 
 
                     ListDetailsAdapter listAdapter = new ListDetailsAdapter(_listBooks, BookDetailsActivity.this);
