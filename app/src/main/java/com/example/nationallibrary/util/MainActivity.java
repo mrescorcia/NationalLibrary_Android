@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,12 +34,23 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<Book> _listBooks;
-    Button btnSearchBook;
-    EditText txtTitle;
+    String _error;
 
-    RecyclerView recyclerView;
-    TextView isbn13TextView;
+    List<Book> _listBooks;
+    String _currentTitle;
+    int _currentPage = 1;
+
+
+    Button _btnSearchBook;
+    EditText _txtTitle;
+    TextView _nextPageTextView;
+    TextView _backPageTextView;
+    EditText _page;
+    TextView _maxPages;
+    TextView _pageLabel;
+    TextView _ofLabel;
+
+    RecyclerView _recyclerView;
 
 
 
@@ -47,30 +60,77 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        txtTitle = findViewById(R.id.txtBookName);
-        btnSearchBook = findViewById(R.id.btnSearchBooks);
-        recyclerView = findViewById(R.id.listRecyclerView);
+        _txtTitle = findViewById(R.id.txtBookName);
+        _btnSearchBook = findViewById(R.id.btnSearchBooks);
+        _recyclerView = findViewById(R.id.listRecyclerView);
 
-        btnSearchBook.setOnClickListener(new View.OnClickListener() {
+        _page = findViewById(R.id.currentPageEditText);
+        _backPageTextView = findViewById(R.id.backPageTextView);
+        _nextPageTextView = findViewById(R.id.nextPageTextView);
+        _maxPages = findViewById(R.id.pageMaxTextView);
+        _pageLabel = findViewById(R.id.pageTextView);
+        _ofLabel = findViewById(R.id.ofTextView);
+
+        _btnSearchBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String titleToSearch = txtTitle.getText().toString();
-                SearchBooks(titleToSearch);
-                //Intent intent = new Intent(MainActivity.this, BookDetailsActivity.class);
-                //startActivity(intent);
+                _currentTitle = _txtTitle.getText().toString();
+                SearchBooks(_currentTitle, _currentPage);
+                _page.setText(String.valueOf(_currentPage));
 
+                InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(_txtTitle.getWindowToken(), 0);
+                showPageManager();
+            }
+        });
 
+        _nextPageTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _currentPage = nextPage(_currentPage);
+                SearchBooks(_currentTitle, _currentPage);
+                _page.setText(String.valueOf(_currentPage));
+            }
+        });
+
+        _backPageTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _currentPage = backPage(_currentPage);
+                SearchBooks(_currentTitle, _currentPage);
+                _page.setText(String.valueOf(_currentPage));
             }
         });
 
     }
 
-    private List<Book> SearchBooks(String titleIn ){
+    private void showPageManager() {
+        _nextPageTextView.setVisibility(View.VISIBLE);
+        _backPageTextView.setVisibility(View.VISIBLE);
+        _page.setVisibility(View.VISIBLE);
+        _maxPages.setVisibility(View.VISIBLE);
+        _pageLabel.setVisibility(View.VISIBLE);
+        _ofLabel.setVisibility(View.VISIBLE);
+    }
+
+    private List<Book> SearchBooks(String titleIn, int page){
 
         _listBooks = new ArrayList<>();
+        String url = "";
+        try {
+            if(!(titleIn.isEmpty()&&page==0)){
+                if(page==0){
+                    url = String.format("https://api.itbook.store/1.0/search/%s", titleIn);
+                }else{
+                    url = String.format("https://api.itbook.store/1.0/search/%s/%s", titleIn, page);
+                }
+            }
+        }catch (Exception e){
+            Log.d("Exception", "MainActivity > SearchBooks > Exception:" + e.getMessage());
+        }
 
-        String url = "https://api.itbook.store/1.0/search/" + titleIn;
+
 
         StringRequest postRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -78,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-
+                    _maxPages.setText(jsonObject.getString("total"));
                     JSONArray jsonObjectBooks = jsonObject.getJSONArray("books");
 
                     for (int i = 0; i<jsonObjectBooks.length(); i++){
@@ -99,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                     recyclerView.setAdapter(listAdapter);
 
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -108,12 +170,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error", error.getMessage());
+                _error = error.getMessage();
             }
         });
 
         Volley.newRequestQueue(this).add(postRequest);
 
         return _listBooks;
+    }
+
+    private int nextPage(int currentPage){
+        int nextPage=0;
+        try {
+            if(currentPage < Integer.parseInt(_maxPages.getText().toString())) nextPage = currentPage + 1;
+            else nextPage = currentPage;
+        }catch (Exception e){
+            Log.d("Error", e.getMessage());
+            _error = e.getMessage();
+        }
+
+        return nextPage;
+    }
+
+    private int backPage(int currentPage){
+        int backPage=0;
+
+        if(currentPage>=2) backPage = currentPage - 1;
+        else backPage = currentPage;
+
+        return backPage;
     }
 
     private void OpenLink(String url){

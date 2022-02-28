@@ -10,7 +10,7 @@
         android:id="@+id/txtBookName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:minHeight="48dp"
@@ -18,26 +18,113 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.129"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/pageTextView"
+        android:layout_width="35dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/pageTextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtBookName"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/ofTextView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/ofTextView"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/currentPageEditText"
+        app:layout_constraintTop_toBottomOf="@+id/txtBookName"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/pageMaxTextView"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/pageTextView"
+        app:layout_constraintStart_toEndOf="@+id/ofTextView"
+        app:layout_constraintTop_toBottomOf="@+id/txtBookName"
+        android:visibility="invisible"
+        />
 
     <Button
         android:id="@+id/btnSearchBooks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="10dp"
         android:text="@string/btnSearchBook"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtBookName"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/backPageTextView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/pageBack"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/pageMaxTextView"
+        app:layout_constraintTop_toBottomOf="@+id/txtBookName"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/nextPageTextView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/nextPage"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/backPageTextView"
+        app:layout_constraintTop_toBottomOf="@+id/txtBookName"
+        android:visibility="invisible"
+        />
+
+    <EditText
+        android:id="@+id/currentPageEditText"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textSize="14dp"
+        android:maxLength="4"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/pageTextView"
+        app:layout_constraintTop_toBottomOf="@+id/txtBookName"
+        android:visibility="invisible"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSearchBooks" />
+        app:layout_constraintTop_toBottomOf="@+id/backPageTextView"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

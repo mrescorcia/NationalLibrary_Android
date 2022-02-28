@@ -18,4 +18,9 @@
     <string name="priceTextView">price</string>
     <string name="imageTextView">image</string>
     <string name="urlTextView">url</string>
+
+    <string name="pageTextView">page</string>
+    <string name="pageBack"><![CDATA[<]]></string>
+    <string name="nextPage"><![CDATA[>]]></string>
+    <string name="ofTextView">of</string>
 </resources>
