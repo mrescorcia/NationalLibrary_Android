@@ -125,6 +125,10 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
 
+
+                    if (keyEvent.getAction()!=KeyEvent.ACTION_DOWN)
+                        return true;
+
                     if(i==66){
                         if (checkBookName()){
                             _currentPage = 1;
@@ -146,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     if(i==66){
+
+                        if (keyEvent.getAction()!=KeyEvent.ACTION_DOWN)
+                            return true;
+
                         if (checkBookName()){
                             _currentPage = Integer.parseInt(_page.getText().toString());
                             SearchBooks();
