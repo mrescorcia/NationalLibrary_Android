@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
 
-
                     if (keyEvent.getAction()!=KeyEvent.ACTION_DOWN)
                         return true;
 
@@ -159,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                             SearchBooks();
                             checkListBook();
                         }
+
                     }
                 }catch (Exception e){
                     Log.d("Exception", e.getMessage());
