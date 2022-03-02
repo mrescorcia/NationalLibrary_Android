@@ -23,4 +23,8 @@
     <string name="pageBack"><![CDATA[<]]></string>
     <string name="nextPage"><![CDATA[>]]></string>
     <string name="ofTextView">of</string>
+
+    <string name="noBookName">No Book Name</string>
+    <string name="noResults">No Results</string>
+    <string name="pleaseCheckInternetConnection">Please Check INTERNET Connection</string>
 </resources>

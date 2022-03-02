@@ -5,9 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,11 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nationallibrary.R;
@@ -77,118 +72,100 @@ public class MainActivity extends AppCompatActivity {
         final MediaPlayer next = MediaPlayer.create(this, R.raw.click);
         final MediaPlayer back = MediaPlayer.create(this, R.raw.click2);
 
-        _btnSearchBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        _btnSearchBook.setOnClickListener(view -> {
 
-                try {
-                    if (checkBookName()){
-                        _currentPage = 1;
-                        SearchBooks();
-                        checkListBook();
-                        _page.setText(String.valueOf(_currentPage));
-                        next.start();
-                    }
-
-                }catch (Exception e){
-                    Log.d("Exception", e.getMessage());
+            try {
+                if (checkBookName()){
+                    _currentPage = 1;
+                    _listBooks = SearchBooks();
+                    checkListBook();
+                    _page.setText(String.valueOf(_currentPage));
+                    next.start();
                 }
 
-
+            }catch (Exception e){
+                Log.d("Exception", e.getMessage());
             }
+
+
         });
 
-        _nextPageTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                _currentPage = nextPage(_currentPage);
-                SearchBooks();
-                _page.setText(String.valueOf(_currentPage));
-                next.start();
-            }
+        _nextPageTextView.setOnClickListener(view -> {
+            _currentPage = nextPage(_currentPage);
+            _listBooks = SearchBooks();
+            _page.setText(String.valueOf(_currentPage));
+            next.start();
         });
 
-        _backPageTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                _currentPage = backPage(_currentPage);
-                SearchBooks();
-                _page.setText(String.valueOf(_currentPage));
-                back.start();
-            }
+        _backPageTextView.setOnClickListener(view -> {
+            _currentPage = backPage(_currentPage);
+            _listBooks = SearchBooks();
+            _page.setText(String.valueOf(_currentPage));
+            back.start();
         });
 
 
-        _txtTitle.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+        _txtTitle.setOnKeyListener((view, i, keyEvent) -> {
 
-                try {
+            try {
+
+                if (keyEvent.getAction()!=KeyEvent.ACTION_DOWN)
+                    return true;
+
+                if(i==66){
+                    if (checkBookName()){
+                        _currentPage = 1;
+                        _listBooks = SearchBooks();
+                        checkListBook();
+                        _page.setText(String.valueOf(_currentPage));
+                    }
+                }
+            }catch (Exception e){
+                Log.d("Exception", e.getMessage());
+            }
+            return false;
+        });
+
+        _page.setOnKeyListener((view, i, keyEvent) -> {
+
+            try {
+                if(i==66){
 
                     if (keyEvent.getAction()!=KeyEvent.ACTION_DOWN)
                         return true;
 
-                    if(i==66){
-                        if (checkBookName()){
-                            _currentPage = 1;
-                            SearchBooks();
-                            checkListBook();
-                            _page.setText(String.valueOf(_currentPage));
-                        }
+                    if (checkBookName()){
+                        _currentPage = Integer.parseInt(_page.getText().toString());
+                        _listBooks = SearchBooks();
+                        checkListBook();
                     }
-                }catch (Exception e){
-                    Log.d("Exception", e.getMessage());
+
                 }
-                return false;
+            }catch (Exception e){
+                Log.d("Exception", e.getMessage());
             }
-        });
 
-        _page.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-
-                try {
-                    if(i==66){
-
-                        if (keyEvent.getAction()!=KeyEvent.ACTION_DOWN)
-                            return true;
-
-                        if (checkBookName()){
-                            _currentPage = Integer.parseInt(_page.getText().toString());
-                            SearchBooks();
-                            checkListBook();
-                        }
-
-                    }
-                }catch (Exception e){
-                    Log.d("Exception", e.getMessage());
-                }
-
-                return false;
-            }
+            return false;
         });
 
     }
 
     private boolean checkBookName(){
-        Boolean nameIsOk = true;
+        boolean nameIsOk = true;
 
         _infoTextView.setText("");
         _currentTitle = _txtTitle.getText().toString();
 
-        if(_txtTitle.getText().length()>1) nameIsOk = true;
-        else {
-            _infoTextView.setText("No Book's Name");
-            return nameIsOk = false;
+        if(!(_txtTitle.getText().length()>1)) {
+            _infoTextView.setText(R.string.noBookName);
+            nameIsOk = false;
         }
 
         //_page.setText(String.valueOf(_currentPage));
         return nameIsOk;
     }
 
-    private Boolean checkListBook(){
-
-        Boolean listBookOk = true;
+    private void checkListBook(){
 
         try {
 
@@ -200,14 +177,14 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
 
-                _infoTextView.setText("No Results");
-                return listBookOk = false;
+                _infoTextView.setText(R.string.noResults);
+
             }
 
         }catch (Exception e){
             Log.d("Exception", e.getMessage());
         }
-        return listBookOk;
+
     }
 
     private void showPageManager() {
@@ -221,15 +198,13 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Book> SearchBooks(){
 
-        _listBooks = new ArrayList<>();
+        List<Book> listBooksOut = new ArrayList<>();
         String url = "";
         try {
             if(!(_currentTitle.isEmpty()&&_currentPage==0)){
-                if(_currentPage==0){
-                    url = String.format("https://api.itbook.store/1.0/search/%s", _currentTitle);
-                }else{
-                    url = String.format("https://api.itbook.store/1.0/search/%s/%s", _currentTitle, _currentPage);
-                }
+
+                url = String.format("https://api.itbook.store/1.0/search/%s/%s", _currentTitle, _currentPage);
+
             }
         }catch (Exception e){
             Log.d("Exception", "MainActivity > SearchBooks > Exception:" + e.getMessage());
@@ -237,56 +212,50 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        StringRequest postRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        StringRequest postRequest = new StringRequest(Request.Method.GET, url, response -> {
 
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
 
-                    int totalBooks = Integer.parseInt(jsonObject.getString("total"));
+                int totalBooks = Integer.parseInt(jsonObject.getString("total"));
 
-                    int maxPages = (totalBooks/10) > 99 ? 100 : (totalBooks/10);
-                    _maxPages.setText(String.valueOf(maxPages));
+                int maxPages = (totalBooks/10) > 99 ? 100 : (totalBooks/10)+1;
+                _maxPages.setText(String.valueOf(maxPages));
 
-                    JSONArray jsonObjectBooks = jsonObject.getJSONArray("books");
+                JSONArray jsonObjectBooks = jsonObject.getJSONArray("books");
 
-                    for (int i = 0; i<jsonObjectBooks.length(); i++){
-                        JSONObject book = jsonObjectBooks.getJSONObject(i);
-                        _listBooks.add(new Book(
-                                book.getString("image")==null?"":book.getString("image"),
-                                book.getString("title")==null?"":book.getString("title"),
-                                book.getString("subtitle")==null?"":book.getString("subtitle"),
-                                book.getString("isbn13")==null?"":book.getString("isbn13"),
-                                book.getString("price")==null?"":book.getString("price"),
-                                book.getString("url")==null?"":book.getString("url")
-                        ));
-                    }
-
-                    ListAdapter listAdapter = new ListAdapter(_listBooks, MainActivity.this);
-                    RecyclerView recyclerView = findViewById(R.id.listRecyclerView);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    recyclerView.setAdapter(listAdapter);
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                for (int i = 0; i<jsonObjectBooks.length(); i++){
+                    JSONObject book = jsonObjectBooks.getJSONObject(i);
+                    listBooksOut.add(new Book(
+                            book.getString("image").isEmpty()?"":book.getString("image"),
+                            book.getString("title").isEmpty()?"":book.getString("title"),
+                            book.getString("subtitle").isEmpty()?"":book.getString("subtitle"),
+                            book.getString("isbn13").isEmpty()?"":book.getString("isbn13"),
+                            book.getString("price").isEmpty()?"":book.getString("price"),
+                            book.getString("url").isEmpty()?"":book.getString("url")
+                    ));
                 }
 
+                ListAdapter listAdapter = new ListAdapter(listBooksOut, MainActivity.this);
+                RecyclerView recyclerView = findViewById(R.id.listRecyclerView);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                recyclerView.setAdapter(listAdapter);
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.getMessage());
-                _infoTextView.setText("Please Check INTERNET Connection");
-            }
+
+        }, error -> {
+            Log.e("Error", error.getMessage());
+            _infoTextView.setText(R.string.pleaseCheckInternetConnection);
         });
 
         Volley.newRequestQueue(this).add(postRequest);
 
-        return _listBooks;
+        return listBooksOut;
     }
 
     private int nextPage(int currentPage){
