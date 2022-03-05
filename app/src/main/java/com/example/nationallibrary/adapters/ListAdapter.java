@@ -73,7 +73,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
 
         void bindData(final Book book){
 
-            bookImageView = book.getImage(book.image, bookImageView);
+            bookImageView = book.getImage(book.getUrlImage(), bookImageView);
             titleTextView.setText(book.getTitle());
             subtitleTextView.setText(book.getSubtitle());
             isbn13TextView.setText(book.getIsbn13());

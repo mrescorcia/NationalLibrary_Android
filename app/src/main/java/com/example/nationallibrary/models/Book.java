@@ -6,29 +6,26 @@ import android.widget.ImageView;
 import com.example.nationallibrary.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 public class Book {
 
-    public String title;
-    public String subtitle;
-    public String authors;
-    public String publisher;
-    public String isbn10;
-    public String isbn13;
-    public String pages;
-    public String year;
-    public String rating;
-    public String desc;
-    public String price;
-    public String image;
-    public String url;
-    public List<String> pdf;
+    private String title;
+    private String subtitle;
+    private String authors;
+    private String publisher;
+    private String isbn10;
+    private String isbn13;
+    private String pages;
+    private String year;
+    private String rating;
+    private String desc;
+    private String price;
+    private String urlImage;
+    private String url;
 
 
 
-    public Book(String image, String title, String subtitle, String isbn13, String price, String url) {
-        this.image = image;
+    public Book(String urlImage, String title, String subtitle, String isbn13, String price, String url) {
+        this.urlImage = urlImage;
         this.title = title;
         this.subtitle = subtitle;
         this.isbn13 = isbn13;
@@ -38,7 +35,7 @@ public class Book {
 
     public Book(String title, String subtitle, String authors, String publisher, String isbn10,
                 String isbn13, String pages, String year, String rating, String desc, String price,
-                String image, String url, List<String> pdf) {
+                String urlImage, String url) {
         this.title = title;
         this.subtitle = subtitle;
         this.authors = authors;
@@ -50,26 +47,7 @@ public class Book {
         this.rating = rating;
         this.desc = desc;
         this.price = price;
-        this.image = image;
-        this.url = url;
-        this.pdf = pdf;
-    }
-
-    public Book(String title, String subtitle, String authors, String publisher, String isbn10,
-                String isbn13, String pages, String year, String rating, String desc, String price,
-                String image, String url) {
-        this.title = title;
-        this.subtitle = subtitle;
-        this.authors = authors;
-        this.publisher = publisher;
-        this.isbn10 = isbn10;
-        this.isbn13 = isbn13;
-        this.pages = pages;
-        this.year = year;
-        this.rating = rating;
-        this.desc = desc;
-        this.price = price;
-        this.image = image;
+        this.urlImage = urlImage;
         this.url = url;
     }
 
@@ -161,9 +139,8 @@ public class Book {
         this.price = price;
     }
 
-    public ImageView getImage(String urlImage, ImageView imageViewIn)
+    public ImageView getImage(String urlImage, ImageView bookImageView)
     {
-        ImageView bookImageView = imageViewIn;
 
         try {
             Picasso.get()
@@ -179,8 +156,12 @@ public class Book {
         return bookImageView;
     }
 
-    public void setImage(String urlImage) {
-        this.image = null;
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
     public String getUrl() {
@@ -189,13 +170,5 @@ public class Book {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public List<String> getPdf() {
-        return pdf;
-    }
-
-    public void setPdf(List<String> pdf) {
-        this.pdf = pdf;
     }
 }

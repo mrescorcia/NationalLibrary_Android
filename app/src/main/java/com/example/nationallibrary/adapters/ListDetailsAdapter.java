@@ -15,39 +15,44 @@ import com.example.nationallibrary.models.Book;
 import java.util.List;
 
 public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.ViewHolder> {
+
     private List<Book> booksList;
-    private LayoutInflater mLayoutInflater;
+    private final LayoutInflater mLayoutInflater;
     private Context context;
 
-    public ListDetailsAdapter(List<Book> booksList, Context context){
+    public ListDetailsAdapter(List<Book> booksList, Context context) {
         this.booksList = booksList;
         this.mLayoutInflater = LayoutInflater.from(context);
         this.context = context;
     }
 
     @Override
-    public int getItemCount() { return booksList.size(); }
-
-    @Override
-    public ListDetailsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = mLayoutInflater.inflate(R.layout.detail_book, null);
-        return new ListDetailsAdapter.ViewHolder(view);
+    public int getItemCount() {
+        return booksList.size();
     }
 
     @Override
-    public void onBindViewHolder(final ListDetailsAdapter.ViewHolder holder, final int position){
+    public ListDetailsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mLayoutInflater.inflate(R.layout.detail_book, null);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ListDetailsAdapter.ViewHolder holder, final int position) {
         holder.bindData(booksList.get(position));
     }
 
-    public void setItems(List<Book> items){ booksList = items; }
+    public void setItems(List<Book> items) {
+        booksList = items;
+    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView bookImageView;
         TextView titleTextView, subtitleTextView, authorsTextView, publisherTextView, isbn10TextView,
                 isbn13TextView, pagesTextView, yearTextView, ratingTextView, descTextView, priceTextView,
                 imageTextView, urlTextView;
 
-        ViewHolder(View itemView){
+        ViewHolder(View itemView) {
             super(itemView);
             bookImageView = itemView.findViewById(R.id.bookImageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
@@ -64,35 +69,24 @@ public class ListDetailsAdapter extends RecyclerView.Adapter<ListDetailsAdapter.
             imageTextView = itemView.findViewById(R.id.imageTextView);
             urlTextView = itemView.findViewById(R.id.urlTextView);
 
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    /*isbn13TextView = v.findViewById(R.id.isbn13TextView);
-                    String text = (String) isbn13TextView.getText();
-
-                     */
-                }
-            });
-
         }
 
-        void bindData(final Book book){
+        void bindData(final Book book) {
 
-            bookImageView = book.getImage(book.image, bookImageView);
+            bookImageView = book.getImage(book.getUrlImage(), bookImageView);
             titleTextView.setText(book.getTitle());
             subtitleTextView.setText(book.getSubtitle());
-            authorsTextView.setText("authors: " + book.getAuthors());
-            publisherTextView.setText("publisher: " + book.getPublisher());
-            isbn10TextView.setText("isbn10: " + book.getIsbn10());
-            isbn13TextView.setText("isbn13: " + book.getIsbn13());
+            authorsTextView.setText(book.getAuthors());
+            publisherTextView.setText(book.getPublisher());
+            isbn10TextView.setText(book.getIsbn10());
+            isbn13TextView.setText(book.getIsbn13());
 
-            pagesTextView.setText("pages: " + book.getPages());
-            yearTextView.setText("year: " + book.getYear());
-            ratingTextView.setText("rating: " + book.getRating());
+            pagesTextView.setText(book.getPages());
+            yearTextView.setText(book.getYear());
+            ratingTextView.setText(book.getRating());
             descTextView.setText(book.getDesc());
-            priceTextView.setText("price: " + book.getPrice());
-            urlTextView.setText("url: " + book.getUrl());
+            priceTextView.setText(book.getPrice());
+            urlTextView.setText(book.getUrl());
 
         }
 
